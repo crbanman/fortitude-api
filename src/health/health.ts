@@ -13,13 +13,17 @@ export function addHp(
 }
 
 /**
- * Add temp HP to a character. Replaces existing temp HP.
+ * Add temp HP to a character. Replaces existing temp HP only if the new
+ * value is higher.
  */
 export function addTempHp(
   character: CharacterSheet,
   value: number,
 ): CharacterSheet {
-  character.health.temporaryHitPoints = value;
+  character.health.temporaryHitPoints = Math.max(
+    character.health.temporaryHitPoints,
+    value,
+  );
   return character;
 }
 

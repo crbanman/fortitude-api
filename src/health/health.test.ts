@@ -46,7 +46,7 @@ describe("adding temp hp", () => {
     expect(character.health.temporaryHitPoints).toEqual(10);
   });
 
-  test("adding temp hp overrides existing temp hp", () => {
+  test("adding temp hp is not replaced if new value is lower", () => {
     const character = {
       hitPoints: 50,
       health: {
@@ -57,7 +57,21 @@ describe("adding temp hp", () => {
 
     addTempHp(character, 20);
     expect(character.health.hitPoints).toEqual(25);
-    expect(character.health.temporaryHitPoints).toEqual(20);
+    expect(character.health.temporaryHitPoints).toEqual(30);
+  });
+
+  test("adding temp hp is replaced if new value is higher", () => {
+    const character = {
+      hitPoints: 50,
+      health: {
+        hitPoints: 25,
+        temporaryHitPoints: 30,
+      },
+    } as CharacterSheet;
+
+    addTempHp(character, 50);
+    expect(character.health.hitPoints).toEqual(25);
+    expect(character.health.temporaryHitPoints).toEqual(50);
   });
 });
 
